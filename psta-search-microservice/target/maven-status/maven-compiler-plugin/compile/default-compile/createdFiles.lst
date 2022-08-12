@@ -1,0 +1,3 @@
+com\pstravelaggregator\SearchMicroservice\SearchApplication.class
+com\pstravelaggregator\SearchMicroservice\controller\SearchController.class
+com\pstravelaggregator\SearchMicroservice\services\SearchService.class

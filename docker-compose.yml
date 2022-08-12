@@ -1,0 +1,67 @@
+version: '3.7'
+services:
+  discovery-server:
+    build: discovery-server
+    ports:
+      - "8761:8761"
+  api-gateway:
+    build: api-gateway
+    ports:
+      - "8081:8081"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka
+
+      SPRING_cloud_gateway_routes[0]_id: search
+      spring_cloud_gateway_routes[0]_uri: http://search:9001
+      spring_cloud_gateway_routes[0]_predicates[0]_name: Path
+      spring_cloud_gateway_routes[0]_predicates[0]_args[pattern]: /search/**
+
+      # spring_cloud_gateway_routes[1]_id: payment
+      # spring_cloud_gateway_routes[1]_uri : http://payment:9003
+      # spring_cloud_gateway_routes[1]_predicates[0]_name : Path
+      # spring_cloud_gateway_routes[1]_predicates[0]_args[pattern] : /payment/**
+
+      # spring_cloud_gateway_routes[2]_id: user-assistance
+      # spring_cloud_gateway_routes[2]_uri: http://user-assistance:9004
+      # spring_cloud_gateway_routes[2]_predicates[0]_name: Path
+      # spring_cloud_gateway_routes[2]_predicates[0]_args[pattern]: /assistance/**
+
+      # spring_cloud_gateway_routes[3]_id: bookings
+      # spring_cloud_gateway_routes[3]_uri: http://bookings:9002
+      # spring_cloud_gateway_routes[3]_predicates[0]_name: Path
+      # spring_cloud_gateway_routes[3]_predicates[0]_args[pattern]: /**
+         
+  search:
+    build: psta-search-microservice
+    ports:
+      - "9001:9001"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka
+
+
+  # bookings:
+  #   build: bookings-microservice
+  #   ports:
+  #     - "9002:9002"
+  #   environment:
+  #     EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka
+
+
+  # payment:
+  #   build: payment-microservice
+  #   ports:
+  #     - "9003:9003"
+  #   environment:
+  #     EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka
+
+
+  # user-assistance:
+  #   build: user-assistance-microservice
+  #   ports:
+  #     - "9004:9004"
+  #   environment:
+  #     EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka
+
+  
+
+      
